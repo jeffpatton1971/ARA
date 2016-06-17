@@ -1,3 +1,5 @@
+$RestAPIVersion = "2014-04-01";
+
 function Get-AzureQuotaUsage
 {
 	param
@@ -5,7 +7,8 @@ function Get-AzureQuotaUsage
 		[string]$SubscriptionId = $Global:AzureSubscription.subscriptionId,
 		[ValidateSet('Microsoft.Compute','Microsoft.Network','Microsoft.Storage')] 
 		[string]$Provider,
-		[string]$Location
+		[string]$Location,
+		[string]$apiVersion
 	)
 
 	try
@@ -14,7 +17,10 @@ function Get-AzureQuotaUsage
 		$Error.Clear();
 
 		$Method = 'GET';
-		$apiVersion = '2015-05-01-preview';
+		if (!($apiVersion))
+		{
+			$apiVersion = $RestAPIVersion;
+		}
 
 		$Uri = "https://management.azure.com/subscriptions/$($SubscriptionId)/providers/$($Provider)/locations/$($Location)/usages?api-version=$($apiVersion)";
 		
@@ -32,7 +38,8 @@ function Get-AzureEvent
 		[string]$SubscriptionId = $Global:AzureSubscription.subscriptionId,
 		[datetime]$StartDate = (Get-Date).AddDays(-90),
 		[datetime]$EndDate = (Get-Date),
-		[string]$ResourceGroupName
+		[string]$ResourceGroupName,
+		[string]$apiVersion
 	)
 
 	try
@@ -41,7 +48,11 @@ function Get-AzureEvent
 		$Error.Clear();
 
 		$Method = 'GET';
-		$apiVersion = '2014-04-01';
+		if (!($apiVersion))
+		{
+			$apiVersion = $RestAPIVersion;
+		}
+
 		#
 		# TODO
 		#
