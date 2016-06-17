@@ -79,3 +79,37 @@ function Get-AzureEvent
 		throw $Error;
 	}
 }
+function Get-AzureAlertRule
+{
+	param
+	(
+		[string]$SubscriptionId = $Global:AzureSubscription.subscriptionId,
+		[string]$ResourceGroupName,
+		[string]$apiVersion
+	)
+
+	try
+	{
+		$ErrorActionPreference = 'Stop';
+		$Error.Clear();
+
+		$Method = 'GET';
+		if (!($apiVersion))
+		{
+			$apiVersion = $RestAPIVersion;
+		}
+
+		$Uri = "https://management.azure.com/subscriptions/$($SubscriptionId)";
+		if ($ResourceGroupName)
+		{
+			$Uri = "$($uri)/resourceGroups/$($ResourceGroupName)";
+		}
+		$Uri = "$($Uri)/providers/microsoft.insights/alertRules?api-version=$($apiVersion)";
+		
+		Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+	}
+	catch
+	{
+		throw $Error;
+	}
+}
