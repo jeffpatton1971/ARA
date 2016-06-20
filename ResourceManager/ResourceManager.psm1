@@ -6,7 +6,8 @@ function Get-AzureResourceProvider
 	(
 		[string]$SubscriptionId = $Global:AzureSubscription.subscriptionId,
 		[string]$Namespace,
-		[string]$apiVersion
+		[string]$apiVersion,
+		[switch]$AsJson
 	)
 
 	try
@@ -29,7 +30,14 @@ function Get-AzureResourceProvider
 
 		$Uri = "$($Uri)?api-version=$($apiVersion)";
 		
-		Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		if ($AsJson)
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri |ConvertTo-Json;
+		}
+		else
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		}
 	}
 	catch
 	{
@@ -46,7 +54,8 @@ function Get-AzureResourceHealth
 		[string]$ResourceGroupName,
 		[string]$ResourceType,
 		[string]$ResourceName,
-		[string]$apiVersion
+		[string]$apiVersion,
+		[switch]$AsJson
 	)
 
 	try
@@ -71,7 +80,14 @@ function Get-AzureResourceHealth
 		$Uri = "$($uri)/providers/Microsoft.ResourceHealth/availabilityStatuses?api-version=2015-01-01"
 		Write-Output $Uri
 		
-		Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		if ($AsJson)
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri |ConvertTo-Json;
+		}
+		else
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		}
 	}
 	catch
 	{

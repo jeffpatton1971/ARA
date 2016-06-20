@@ -8,7 +8,8 @@ function Get-AzureQuotaUsage
 		[ValidateSet('Microsoft.Compute','Microsoft.Network','Microsoft.Storage')] 
 		[string]$Provider,
 		[string]$Location,
-		[string]$apiVersion
+		[string]$apiVersion,
+		[switch]$AsJson
 	)
 
 	try
@@ -24,7 +25,14 @@ function Get-AzureQuotaUsage
 
 		$Uri = "https://management.azure.com/subscriptions/$($SubscriptionId)/providers/$($Provider)/locations/$($Location)/usages?api-version=$($apiVersion)";
 		
-		Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		if ($AsJson)
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri |ConvertTo-Json;
+		}
+		else
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		}
 	}
 	catch
 	{
@@ -39,7 +47,8 @@ function Get-AzureEvent
 		[datetime]$StartDate = (Get-Date).AddDays(-90),
 		[datetime]$EndDate = (Get-Date),
 		[string]$ResourceGroupName,
-		[string]$apiVersion
+		[string]$apiVersion,
+		[switch]$AsJson
 	)
 
 	try
@@ -72,7 +81,14 @@ function Get-AzureEvent
 		
 		$Uri = "https://management.azure.com/subscriptions/$($SubscriptionId)/providers/microsoft.insights/eventtypes/management/values?api-version=$($apiVersion)&`$filter=$($Filter)";
 		
-		Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		if ($AsJson)
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri |ConvertTo-Json;
+		}
+		else
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		}
 	}
 	catch
 	{
@@ -86,7 +102,8 @@ function Get-AzureAlertRule
 		[string]$SubscriptionId = $Global:AzureSubscription.subscriptionId,
 		[string]$ResourceGroupName,
 		[string]$RuleName,
-		[string]$apiVersion
+		[string]$apiVersion,
+		[switch]$AsJson
 	)
 
 	try
@@ -112,7 +129,14 @@ function Get-AzureAlertRule
 		}
 		$Uri = "$($Uri)?api-version=$($apiVersion)";
 
-		Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		if ($AsJson)
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri |ConvertTo-Json;
+		}
+		else
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		}
 	}
 	catch
 	{

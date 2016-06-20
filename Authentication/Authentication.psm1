@@ -41,6 +41,10 @@ function New-AzureContext
 }
 function Get-AzureSubscription
 {
+	param
+	(
+		[switch]$AsJson
+	)
 	try
 	{
 		$ErrorActionPreference = 'Stop';
@@ -50,7 +54,14 @@ function Get-AzureSubscription
 		$apiVersion = '2015-01-01';
 		$Uri = "https://management.azure.com/subscriptions?&api-version=$($apiVersion)";
 
-		Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		if ($AsJson)
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri |ConvertTo-Json;
+		}
+		else
+		{
+			Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
+		}
 	}
 	catch
 	{
