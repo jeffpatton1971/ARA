@@ -4,8 +4,7 @@ function New-AzureContext
 	(
 		[string]$TenantID,
 		[string]$ApplicationID,
-		[string]$CallbackUri,
-		[switch]$ARM
+		[string]$CallbackUri
 	)
 
 	try
@@ -16,17 +15,18 @@ function New-AzureContext
 		$adal = "${env:ProgramFiles(x86)}\Microsoft SDKs\Azure\PowerShell\ServiceManagement\Azure\Services\Microsoft.IdentityModel.Clients.ActiveDirectory.dll";
 		[System.Reflection.Assembly]::LoadFrom($adal) |Out-Null;
 
-		$Authority = "https://login.microsoftonline.com/$($TenantID)/oauth2/authorize";
-		if ($ARM)
-		{
-			$resourceAppIdURI = "https://management.azure.com/";
-		}
-		else
-		{
-			$resourceAppIdURI = "https://management.core.windows.net/";
-		}
-
 		[System.Uri]$Uri = New-Object System.Uri($CallbackUri);
+
+		#
+		# These values may not be necessary
+		#
+		# $resourceAppIdURI = "https://management.azure.com/";
+		# $Authority = "https://login.microsoftonline.com/$($TenantID)/oauth2/token";
+		#
+
+		$resourceAppIdURI = "https://management.core.windows.net/";
+		$Authority = "https://login.microsoftonline.com/$($TenantID)";
+
 		[Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext]$AuthenticationContext = New-Object Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext($Authority);
 
 		$Global:AzureAuthenticationContext = $AuthenticationContext;

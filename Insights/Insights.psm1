@@ -85,6 +85,7 @@ function Get-AzureAlertRule
 	(
 		[string]$SubscriptionId = $Global:AzureSubscription.subscriptionId,
 		[string]$ResourceGroupName,
+		[string]$RuleName,
 		[string]$apiVersion
 	)
 
@@ -104,8 +105,13 @@ function Get-AzureAlertRule
 		{
 			$Uri = "$($uri)/resourceGroups/$($ResourceGroupName)";
 		}
-		$Uri = "$($Uri)/providers/microsoft.insights/alertRules?api-version=$($apiVersion)";
-		
+		$Uri = "$($Uri)/providers/microsoft.insights/alertRules";
+		if ($RuleName)
+		{
+			$Uri = "$($uri)/$($RuleName)";
+		}
+		$Uri = "$($Uri)?api-version=$($apiVersion)";
+
 		Invoke-AzureRestAPI -Method $Method -apiVersion $apiVersion -AuthenticationResult $Global:AzureAuthenticationResult -Uri $Uri;
 	}
 	catch
