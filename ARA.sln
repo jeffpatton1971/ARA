@@ -11,6 +11,8 @@ Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Authentication", "Authentic
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "ResourceManager", "ResourceManager\ResourceManager.pssproj", "{4A833198-CC1E-4BE6-A7EA-37EBCF65D412}"
 EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "Support", "Support\Support.pssproj", "{6FB7CEA7-DC82-49E6-A7B3-20C15CE89C10}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4A833198-CC1E-4BE6-A7EA-37EBCF65D412}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A833198-CC1E-4BE6-A7EA-37EBCF65D412}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A833198-CC1E-4BE6-A7EA-37EBCF65D412}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FB7CEA7-DC82-49E6-A7B3-20C15CE89C10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FB7CEA7-DC82-49E6-A7B3-20C15CE89C10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FB7CEA7-DC82-49E6-A7B3-20C15CE89C10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FB7CEA7-DC82-49E6-A7B3-20C15CE89C10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
